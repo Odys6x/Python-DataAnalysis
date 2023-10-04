@@ -11,10 +11,10 @@ selected_option = st.sidebar.radio("Select an option", ("Home", "EDA", "Sentimen
 
 # Display a welcome message on the main page
 st.title("Welcome")
-st.subheader("This is the main page of the Hotel Sentiment Analysis and Data Visualization page.")
+st.subheader("This is where Hotel Sentiment Analysis and Data Visualization begin.")
 
 uploaded_file = st.file_uploader("Upload a CSV file to Begin", type=["csv", "xls", "json"])
-st.markdown("Select the following option from the Menu Panel (Top LEFT Page)")
+st.write("Navigation is made possible with Menu Panel (Top LEFT of the Page ">")")
 
 # Main app logic
 if uploaded_file is not None:
