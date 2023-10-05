@@ -8,7 +8,6 @@ feel free to update this markdown fileeeeeeeee
 # Getting started 
 ### Whats a virtual environment and why do we need to use it??
 Virtual environments are "workspaces" isolated from ur local machine to avoid conflicts in package versions
-![Alt text](image-1.png)
 
 ### Before u start, you have to activate your virtual environment 
 if you dont, you'll be using library versions from your local machine
@@ -30,15 +29,12 @@ Should you need additional libraries, you need to update the requirements.txt fi
 Project structure
 ------------
 
-    ├── README.md                <- The top-level README for developers using this project.
+    ├── myenv                    <- Virtual environment folder
+    │
+    ├── notebooks                <- Jupyter notebooks
+    |
     ├── data
-    │   └── raw                  <- The original, immutable data dump.
-    │
-    ├── models                   <- Trained and serialized models predictions
-    │
-    ├── notebooks                <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    │   └── raw                  <- The original, immutable data dump.                        
     │
     ├── requirements.txt         <- dependencies
     │
@@ -60,4 +56,3 @@ Project structure
             └── visualize.py
 
 ##we can do this guyssssss
-![Alt text](image-2.png)
