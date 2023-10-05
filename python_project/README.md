@@ -14,7 +14,7 @@ if you dont, you'll be using library versions from your local machine
 1. Open terminal
 2. FOR CMD: ``Run myenv\Scripts\activate`` to activate virtual env 
     FOR BASH ``source myenv/Scripts/activate`` to activate virtual env
-3. pip install -r requirements.txt to install libraries 
+3. ``pip install -r requirements.txt`` to install libraries 
 
 ### How to add a library
 Should you need additional libraries, you need to update the requirements.txt file after installing our library
