@@ -1,9 +1,9 @@
 Programming fundamentals project
 ==============================
 
-Remeber to follow PEP8 guys ;) 
-Hotel review sentiment analysisisisisisissisisisisisisisisisisisis :)
-feel free to update this markdown fileeeeeeeee
+- Remeber to follow PEP8 guys ;) 
+- Hotel review sentiment analysisisisisisissisisisisisisisisisisisis :)
+- feel free to update this markdown fileeeeeeeee
 
 # Getting started 
 ### Whats a virtual environment and why do we need to use it??
@@ -13,7 +13,7 @@ Virtual environments are "workspaces" isolated from ur local machine to avoid co
 if you dont, you'll be using library versions from your local machine
 1. Open terminal
 2. FOR CMD: ``Run myenv\Scripts\activate`` to activate virtual env 
-    FOR BASH ``source myenv/Scripts/activate`` to activate virtual env
+-  FOR BASH ``source myenv/Scripts/activate`` to activate virtual env
 3. ``pip install -r requirements.txt`` to install libraries 
 
 ### How to add a library
@@ -37,10 +37,10 @@ Project structure
     |
     ├── src                      <- Source code for use in this project.
     │   │
-    │   ├── data cleaning        <- Scripts to download or generate data
+    │   ├── data cleaning        <- Scripts to turn raw data into features for modeling
     │   │   └── make_dataset.py
     │   │
-    │   ├── data fetching        <- Scripts to turn raw data into features for modeling
+    │   ├── data fetching        <- Scripts to download or generate data
     │   │   └── extraction.py
     │   │
     │   ├── sentiment analysis   <- Scripts to create sentiment analysis
