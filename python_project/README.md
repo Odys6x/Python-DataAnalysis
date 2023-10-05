@@ -36,7 +36,6 @@ Project structure
     ├── notebooks                <- Jupyter notebooks
     |
     ├── src                      <- Source code for use in this project.
-    │   ├── main.py              <- execution point
     │   │
     │   ├── data cleaning        <- Scripts to download or generate data
     │   │   └── make_dataset.py
@@ -48,10 +47,11 @@ Project structure
     │   │   │                 
     │   │   └── sa.py
     │   │   
-    │   │
-    │   └── visualization        <- EDA
-    |        └── visualize.py                  
-    |         
+    │   ├── visualisation        <- EDA
+    |   |     └── visualise.py    
+    |   |              
+    |   └── main.py              <= Execution point  
+    |
     ├── README.md                <- Markdown file
     |
     └── requirements.txt         <- Dependencies
