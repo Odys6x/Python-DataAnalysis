@@ -29,15 +29,12 @@ Should you need additional libraries, you need to update the requirements.txt fi
 Project structure
 ------------
 
+    ├── data
+    │   └── raw                  <- The original, immutable data dump. 
     ├── myenv                    <- Virtual environment folder
     │
     ├── notebooks                <- Jupyter notebooks
     |
-    ├── data
-    │   └── raw                  <- The original, immutable data dump.                        
-    │
-    ├── requirements.txt         <- dependencies
-    │
     ├── src                      <- Source code for use in this project.
     │   ├── main.py              <- execution point
     │   │
@@ -53,6 +50,11 @@ Project structure
     │   │   
     │   │
     │   └── visualization        <- EDA
-            └── visualize.py
+    |        └── visualize.py                  
+    |         
+    ├── README.md                <- Markdown file
+    |
+    └── requirements.txt         <- Dependencies
+
 
 ##we can do this guyssssss
