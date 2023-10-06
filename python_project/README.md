@@ -15,6 +15,7 @@ if you dont, you'll be using library versions from your local machine
 2. FOR CMD: ``Run myenv\Scripts\activate`` to activate virtual env 
 -  FOR BASH ``source myenv/Scripts/activate`` to activate virtual env
 3. ``pip install -r requirements.txt`` to install libraries 
+4. ``ipython kernel install --user --name=venv`` to create a kernel inside jupyter notebook
 
 ### How to add a library
 Should you need additional libraries, you need to update the requirements.txt file after installing our library
