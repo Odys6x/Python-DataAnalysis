@@ -1,5 +1,11 @@
 import pandas as pd
 import streamlit as st
+import plotly.express as px
+import plotly.graph_objects as go
+from sentiment_analysis.sa_vader import SentimentAnalyzer
+from wordcloud import WordCloud, STOPWORDS
+import matplotlib.pyplot as plt
+stopwords = set(STOPWORDS)
 
 # Create a Streamlit app
 st.set_page_config(page_title="Streamlit App with Side Menu", layout="wide")
@@ -39,8 +45,34 @@ if uploaded_file is not None:
         # Add code for EDA here
 
     elif selected_option == "Sentiment Analysis":
-        st.title("Sentiment Analysis")
-        # Add code for sentiment analysis here
+
+        name = 'The Ritz-Carlton, Millenia Singapore'
+        analyzer = SentimentAnalyzer(data, name)
+        df = analyzer.analyze_sentiment()
+
+        st.title(f"Sentiment Analysis for {name}")
+        chart1,chart2 = st.columns(2)
+
+        with chart1:
+            st.subheader("Sentiment Histogram")
+            sentiment_counts = df['sentiment']
+            fig = px.histogram(df, x='sentiment')
+            histogram = go.Figure(fig)
+            st.plotly_chart(histogram, use_container_width=True)
+        with chart2:
+            st.subheader("Sentiment Pie chart")
+            sentiment_counts = df['sentiment']
+            fig = px.pie(df, names='sentiment', title='Pie chart for sentiment analysis', hole = 0.3)
+            pie = go.Figure(fig)
+            st.plotly_chart(pie, use_container_width=True)
+
+        st.subheader(f'Word Cloud for {name}')
+        text = ''.join(comment for comment in df['comment_content'])
+        word_cloud = WordCloud(collocations = False, background_color = 'white').generate(text)
+
+        plt.imshow(word_cloud, interpolation='bilinear')
+        plt.axis('off')
+        st.pyplot(plt)
 
     elif selected_option == "Dataset":
         st.title("Dataset")
