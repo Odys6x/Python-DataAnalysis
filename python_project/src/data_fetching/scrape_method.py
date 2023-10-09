@@ -57,7 +57,8 @@ def get_rating(soup):
         rating_elements = soup.find_all("div", class_="Hlmiy F1")
 
         for element in rating_elements:
-            rating_span = element.find("span", class_=re.compile(r'ui_bubble_rating bubble_\d+'))
+            rating_span = element.find(
+                "span", class_=re.compile(r'ui_bubble_rating bubble_\d+'))
             if rating_span:
                 rating_class = rating_span["class"]
                 rating_value = int(

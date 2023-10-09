@@ -7,6 +7,7 @@ import scrape_method as sc
 
 # Define the base URL with a placeholder for the page number
 
+
 def Scrape():
     base_url = "https://www.tripadvisor.com/Hotels-g294265-oa{}-Singapore-Hotels.html"
 
@@ -29,18 +30,20 @@ def Scrape():
         webpage = requests.get(url, headers=HEADERS)
         soup = BeautifulSoup(webpage.content, "html.parser")
 
-        links = soup.find_all("a", attrs={'class': 'BMQDV _F Gv wSSLS SwZTJ FGwzt ukgoS'})
+        links = soup.find_all(
+            "a", attrs={'class': 'BMQDV _F Gv wSSLS SwZTJ FGwzt ukgoS'})
         links_list = []
 
         for link in links:
             links_list.append(link.get('href'))
 
         d = {"Name": [], "Address": [], "Price": [], "Amenities": [], 'Hotel_ratings': [], 'Description': [],
-             'Near_Restaurant': [], 'Near_Attractions': [],'Links':[]}
+             'Near_Restaurant': [], 'Near_Attractions': [], 'Links': []}
 
         count = 0
         for link in links_list:
-            new_link = requests.get("https://www.tripadvisor.com/" + link, headers=HEADERS)
+            new_link = requests.get(
+                "https://www.tripadvisor.com/" + link, headers=HEADERS)
             new_soup = BeautifulSoup(new_link.content, "html.parser")
             d['Name'].append(sc.get_name(new_soup))
             d['Address'].append(sc.get_address(new_soup))

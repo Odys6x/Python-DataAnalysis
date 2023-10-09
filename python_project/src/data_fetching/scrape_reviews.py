@@ -1,19 +1,20 @@
+import scrape_method as sc
+import time as t
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
 import logging
 import time
 
 # Configure logging file
 log_filename = 'scraping_log.txt'
-logging.basicConfig(filename=log_filename, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename=log_filename, level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Use logging to indicate the start of scraping
 logging.info("Scraping started.")
 
 # Rest of your code
-from bs4 import BeautifulSoup
-import requests
-import pandas as pd
-import time as t
-import scrape_method as sc
 
 # Define the base URL with a placeholder for the page number
 BASE_URL = "https://www.tripadvisor.com/"
@@ -85,7 +86,8 @@ for link in alllinks[199:200]:
                 soup = BeautifulSoup(webpage.content, "html.parser")
             else:
                 # Check for the "disabled" class to determine if there are no more pages
-                next_button_disabled = soup.find("a", class_="ui_button nav next primary disabled")
+                next_button_disabled = soup.find(
+                    "a", class_="ui_button nav next primary disabled")
                 if next_button_disabled:
                     break  # No more pages to scrape
                 else:
