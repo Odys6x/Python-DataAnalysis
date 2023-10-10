@@ -1,7 +1,7 @@
 import sys
 
 sys.path.insert(0, "src/visualisation")
-from eda import Eda
+from visualise import Eda
 
 sys.path.insert(0, "src/sentiment_analysis")
 from sa import Sentiment_analysis
