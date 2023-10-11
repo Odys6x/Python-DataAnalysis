@@ -27,56 +27,57 @@ if uploaded_file is not None:
     # Get the file extension
     file_extension = uploaded_file.name.split(".")[-1].lower()
 
-    if file_extension == "csv":
-        data = pd.read_csv(uploaded_file)
-        # Perform data analysis or visualization for CSV data here
+    match file_extension:
+        case 'csv':
+            data = pd.read_csv(uploaded_file)
+        case 'xls' | 'xlsx':
+            data = pd.read_excel(uploaded_file, engine="openpyxl")
+        case 'json':
+            data = pd.read_json(uploaded_file)
 
-    elif file_extension in ("xls", "xlsx"):
-        data = pd.read_excel(uploaded_file, engine="openpyxl")  # Use 'xlrd' for XLS files
-        # Perform data analysis or visualization for Excel data here
-
-    elif file_extension == "json":
-        data = pd.read_json(uploaded_file)
-        # Perform data analysis or visualization for JSON data here
+    unique_values = data['Name'].unique()
+    # selected name of hotel
+    selected_name = st.selectbox('Select a value:', unique_values)
 
     # Depending on the selected sidebar option, show different content
-    if selected_option == "EDA":
-        st.title("Exploratory Data Analysis")
-        # Add code for EDA here
+    match selected_option:
+        case 'EDA':
+            st.title("Exploratory Data Analysis")
+            # Add code for EDA here
 
-    elif selected_option == "Sentiment Analysis":
+        case 'Sentiment Analysis':
 
-        name = 'The Ritz-Carlton, Millenia Singapore'
-        analyzer = SentimentAnalyzer(data, name)
-        df = analyzer.analyze_sentiment()
+            analyzer = SentimentAnalyzer(data, selected_name)
+            df = analyzer.analyze_sentiment()
 
-        st.title(f"Sentiment Analysis for {name}")
-        chart1,chart2 = st.columns(2)
+            st.title(f"Sentiment Analysis for {selected_name}")
+            chart1,chart2 = st.columns(2)
 
-        with chart1:
-            st.subheader("Sentiment Histogram")
-            sentiment_counts = df['sentiment']
-            fig = px.histogram(df, x='sentiment')
-            histogram = go.Figure(fig)
-            st.plotly_chart(histogram, use_container_width=True)
-        with chart2:
-            st.subheader("Sentiment Pie chart")
-            sentiment_counts = df['sentiment']
-            fig = px.pie(df, names='sentiment', title='Pie chart for sentiment analysis', hole = 0.3)
-            pie = go.Figure(fig)
-            st.plotly_chart(pie, use_container_width=True)
+            with chart1:
+                st.subheader("Sentiment Histogram")
+                sentiment_counts = df['sentiment']
+                fig = px.histogram(df, x='sentiment')
+                histogram = go.Figure(fig)
+                st.plotly_chart(histogram, use_container_width=True)
+            with chart2:
+                st.subheader("Sentiment Pie chart")
+                sentiment_counts = df['sentiment']
+                fig = px.pie(df, names='sentiment', title='Pie chart for sentiment analysis', hole = 0.3)
+                pie = go.Figure(fig)
+                st.plotly_chart(pie, use_container_width=True)
 
-        st.subheader(f'Word Cloud for {name}')
-        text = ''.join(comment for comment in df['comment_content'])
-        word_cloud = WordCloud(collocations = False, background_color = 'white').generate(text)
+            st.subheader(f'Word Cloud for {selected_name}')
+            text = ''.join(comment for comment in df['comment_content'])
+            word_cloud = WordCloud(collocations = False, background_color = 'white').generate(text)
 
-        plt.imshow(word_cloud, interpolation='bilinear')
-        plt.axis('off')
-        st.pyplot(plt)
+            plt.imshow(word_cloud, interpolation='bilinear')
+            plt.axis('off')
+            st.pyplot(plt)
 
-    elif selected_option == "Dataset":
-        st.title("Dataset")
-        st.write(data)
+        case 'Dataset':
+            st.title("Dataset")
+            selected_row = data[data['Name'] == selected_name]
+            st.write(selected_row)
 
 else:
     st.warning("Please upload a CSV, XLS, or JSON file.")
