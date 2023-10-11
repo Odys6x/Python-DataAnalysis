@@ -3,9 +3,8 @@ import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
 from sentiment_analysis.sa_vader import SentimentAnalyzer
-from wordcloud import WordCloud, STOPWORDS
+from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-stopwords = set(STOPWORDS)
 
 # Create a Streamlit app
 st.set_page_config(page_title="Streamlit App with Side Menu", layout="wide")
@@ -68,7 +67,7 @@ if uploaded_file is not None:
 
             st.subheader(f'Word Cloud for {selected_name}')
             text = ''.join(comment for comment in df['comment_content'])
-            word_cloud = WordCloud(collocations = False, background_color = 'white').generate(text)
+            word_cloud = WordCloud(collocations = False, background_color = 'white', width=800, height=400).generate(text)
 
             plt.imshow(word_cloud, interpolation='bilinear')
             plt.axis('off')
