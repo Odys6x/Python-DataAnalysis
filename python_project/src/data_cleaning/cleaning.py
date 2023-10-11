@@ -133,7 +133,7 @@ class DataCleaning:
         df.insert(0, "index", df.index + 1)
         return df
 
-    def cleaned_df(self):
+    def cleaned_df(self, df):
         """
         Performs a sequence of data cleaning operations on the DataFrame.
 

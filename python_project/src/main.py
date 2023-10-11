@@ -5,15 +5,10 @@ import streamlit.web.cli as stcli
 import os
 import sys
 
-sys.path.insert(0, "src/visualisation")
-from visualise import Eda
 
-sys.path.insert(0, "src/sentiment_analysis")
-from sa import Sentiment_analysis
+sys.path.insert(0, "src/data_cleaning")
 
-eda = Eda()
-sa = Sentiment_analysis()
-vaders = sa.vader_polarity()
+from cleaning import DataCleaning
 
 
 def main():
@@ -43,6 +38,11 @@ def main():
 
         if file_extension == "csv":
             data = pd.read_csv(uploaded_file)
+            data_cleaner = DataCleaning()
+            cleaned_new_df = data_cleaner.cleaned_df(data)
+
+            print(cleaned_new_df)
+
             # Perform data analysis or visualization for CSV data here
 
         elif file_extension in ("xls", "xlsx"):
@@ -59,7 +59,6 @@ def main():
         if selected_option == "EDA":
             st.title("Exploratory Data Analysis")
             # Add code for EDA here
-            eda.count_by_rating()
 
         elif selected_option == "Sentiment Analysis":
             st.title("Sentiment Analysis")
@@ -67,7 +66,7 @@ def main():
 
         elif selected_option == "Dataset":
             st.title("Dataset")
-            st.write(data)
+            st.write(cleaned_new_df)
 
         else:
             st.warning("Please upload a CSV, XLS, or JSON file.")
