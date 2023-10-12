@@ -25,13 +25,13 @@ class SentimentAnalyzer:
         """This method takes in an argument 'score' and returns the sentiment based on the categorized value."""
         if score > 0.25:
             # pos
-            return "pos"
+            return "postive"
         elif score < -0.25:
             # neg
-            return "neg"
+            return "negative"
         else:
             # neutral
-            return "neu"
+            return "neutral"
 
     def preprocess_text(self, text):
         """This method performs preprocessing on the input text."""
