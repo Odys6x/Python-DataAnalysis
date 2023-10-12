@@ -1,8 +1,7 @@
 import pandas as pd
 import sys
 
-sys.path.insert(0, "src/data_fetching")
-from extraction import fetch_data
+from data_fetching.extraction import fetch_data
 
 
 class DataCleaning:
@@ -143,7 +142,6 @@ class DataCleaning:
             The cleaned DataFrame.
         """
         data_cleaner = DataCleaning()
-        df = fetch_data()
         df = data_cleaner.rename_column(df)
         df = data_cleaner.replace_not_ascii(df)
         df = data_cleaner.overall_experience(df)
