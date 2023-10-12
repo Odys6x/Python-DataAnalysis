@@ -65,35 +65,30 @@ def main():
                 chart1, chart2 = st.columns(2)
 
                 with chart1:
-                    st.subheader("Sentiment Histogram")
-                    sentiment_counts = df["sentiment"]
-                    fig = px.histogram(df, x="sentiment")
-                    fig.update_xaxes(
-                        categoryorder="array", categoryarray=["neg", "neu", "pos"]
-                    )
+                    # Sentiment Count Histogram
+                    st.subheader("Histogram")
+                    sentiment_counts = df['sentiment']
+                    fig = px.histogram(df, x='sentiment', color='sentiment')
+                    fig.update_xaxes(categoryorder='array', categoryarray=['neg', 'neu', 'pos'])
                     histogram = go.Figure(fig)
                     st.plotly_chart(histogram, use_container_width=True)
-                with chart2:
-                    st.subheader("Sentiment Pie chart")
-                    sentiment_counts = df["sentiment"]
-                    fig = px.pie(
-                        df,
-                        names="sentiment",
-                        title="Pie chart for sentiment analysis",
-                        hole=0.3,
-                    )
+                    
+                with chart2: 
+                    # Sentiment distribution donut chart
+                    st.subheader("Donut chart")
+                    sentiment_counts = df['sentiment']
+                    fig = px.pie(df, names='sentiment', hole=0.3)
                     pie = go.Figure(fig)
                     st.plotly_chart(pie, use_container_width=True)
 
-                st.subheader(f"Word Cloud for {selected_name}")
-                text = "".join(comment for comment in df["comment_content"])
-                word_cloud = WordCloud(
-                    collocations=False, background_color="white", width=800, height=400
-                ).generate(text)
-
-                plt.imshow(word_cloud, interpolation="bilinear")
-                plt.axis("off")
+                # WordCloud on Reviews (text)
+                st.subheader(f'Word Cloud for {selected_name}')
+                text = ''.join(df['comment_content'])
+                word_cloud = WordCloud(collocations=False, background_color='black', width=800, height=400).generate(text)
+                plt.imshow(word_cloud, interpolation='bilinear')
+                plt.axis('off')
                 st.pyplot(plt)
+                st.subheader("Sentiment Over Time (Stream Graph)")
 
             case "Dataset":
                 st.title("Dataset")
