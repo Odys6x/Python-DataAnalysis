@@ -9,6 +9,9 @@ Programming fundamentals project
 ### Whats a virtual environment and why do we need to use it??
 Virtual environments are "workspaces" isolated from ur local machine to avoid conflicts in package versions
 
+### what to do if ModuleNotFoundError: No module named 'pip'
+``python -m ensurepip --default-pip``
+
 ### Before u start, you have to activate your virtual environment 
 if you dont, you'll be using library versions from your local machine
 1. Open terminal
