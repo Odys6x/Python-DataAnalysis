@@ -61,24 +61,26 @@ def main():
                 st.title(f"Sentiment Analysis for {selected_name}")
                 chart1,chart2 = st.columns(2)
 
+                # Sentiment Histogram
                 with chart1:
-                    st.subheader("Sentiment Histogram")
+                    st.subheader("Histogram")
                     sentiment_counts = df['sentiment']
-                    fig = px.histogram(df, x='sentiment')
-                    fig.update_xaxes(categoryorder='array', categoryarray= ['neg', 'neu', 'pos'])
+                    fig = px.histogram(df, x='sentiment', color='sentiment')
+                    fig.update_xaxes(categoryorder='array', categoryarray=['neg', 'neu', 'pos'])
                     histogram = go.Figure(fig)
                     st.plotly_chart(histogram, use_container_width=True)
+                # Sentiment Donut Chart
                 with chart2:
-                    st.subheader("Sentiment Pie chart")
+                    st.subheader("Donut chart")
                     sentiment_counts = df['sentiment']
-                    fig = px.pie(df, names='sentiment', title='Pie chart for sentiment analysis', hole = 0.3)
+                    fig = px.pie(df, names='sentiment', hole=0.3)
                     pie = go.Figure(fig)
                     st.plotly_chart(pie, use_container_width=True)
 
+                # WordCloud on Reviews (text)
                 st.subheader(f'Word Cloud for {selected_name}')
-                text = ''.join(comment for comment in df['comment_content'])
-                word_cloud = WordCloud(collocations = False, background_color = 'white', width=800, height=400).generate(text)
-
+                text = ''.join(df['comment_content'])
+                word_cloud = WordCloud(collocations=False, background_color='black', width=800, height=400).generate(text)
                 plt.imshow(word_cloud, interpolation='bilinear')
                 plt.axis('off')
                 st.pyplot(plt)
