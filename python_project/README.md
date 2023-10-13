@@ -1,7 +1,7 @@
 Programming fundamentals project
 ==============================
 
-- Remeber to follow PEP8 guys ;) 
+- Remeber to follow PEP8 guys ;)
 - Hotel review sentiment analysisisisisisissisisisisisisisisisisisis :)
 - feel free to update this markdown fileeeeeeeee
 

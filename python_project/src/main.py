@@ -21,13 +21,17 @@ def main():
     # Create a sidebar menu with radio buttons
     st.sidebar.title("Menu")
 
-    selected_option = st.sidebar.radio("Select an option", ("Home", "EDA", "Sentiment Analysis", "Dataset"))
+    selected_option = st.sidebar.radio(
+        "Select an option", ("Home", "EDA", "Sentiment Analysis", "Dataset")
+    )
 
     # Display a welcome message on the main page
     st.title("Welcome")
     st.subheader("This is where Hotel Sentiment Analysis and Data Visualization begin.")
 
-    uploaded_file = st.file_uploader("Upload a CSV file to Begin", type=["csv", "xls", "json"])
+    uploaded_file = st.file_uploader(
+        "Upload a CSV file to Begin", type=["csv", "xls", "json"]
+    )
     st.write("Navigation is made possible with Menu Panel (Top LEFT of the Page)")
 
     # Main app logic
@@ -36,30 +40,31 @@ def main():
         file_extension = uploaded_file.name.split(".")[-1].lower()
 
         match file_extension:
-            case 'csv':
-                data = pd.read_csv(uploaded_file)
+            case "csv":
+                df1 = pd.read_csv(uploaded_file)
+                df2 = pd.read_csv("data/raw/Hotel_List.csv")
+                data = pd.merge(df1, df2, on="Name", how="left")
                 data_cleaner = DataCleaning()
                 cleaned_new_df = data_cleaner.cleaned_df(data)
 
-            case 'xls' | 'xlsx':
+            case "xls" | "xlsx":
                 data = pd.read_excel(uploaded_file, engine="openpyxl")
-            case 'json':
+            case "json":
                 data = pd.read_json(uploaded_file)
 
-        unique_values = data['name'].unique()
+        unique_values = data["name"].unique()
         # sort hotel names
         unique_values.sort()
         # selected name of hotel
-        selected_name = st.selectbox('Select a value:', unique_values)
+        selected_name = st.selectbox("Select a value:", unique_values)
 
         # Depending on the selected sidebar option, show different content
         match selected_option:
-            case 'EDA':
+            case "EDA":
                 st.title("Exploratory Data Analysis")
                 # Add code for EDA here
 
-            case 'Sentiment Analysis':
-
+            case "Sentiment Analysis":
                 st.title(f"Sentiment Analysis for {selected_name}")
 
                 analyzer = SentimentAnalyzer(cleaned_new_df, selected_name)
@@ -78,9 +83,9 @@ def main():
                 # WordCloud on Reviews (text)
                 VisualS.visualise_wordcloud()
 
-            case 'Dataset':
+            case "Dataset":
                 st.title("Dataset")
-                selected_row = data[data['name'] == selected_name]
+                selected_row = data[data["name"] == selected_name]
                 st.write(selected_row)
 
     else:
