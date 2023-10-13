@@ -60,6 +60,8 @@ def main():
 
             case 'Sentiment Analysis':
 
+                st.title(f"Sentiment Analysis for {selected_name}")
+
                 analyzer = SentimentAnalyzer(cleaned_new_df, selected_name)
                 df = analyzer.analyze_sentiment()
                 emotions = analyzer.analyze_emotions()
