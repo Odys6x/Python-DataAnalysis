@@ -166,3 +166,10 @@ class Visualise:
             fig = px.pie(df, names='sentiment', hole=0.3)
             pie = go.Figure(fig)
             st.plotly_chart(pie, use_container_width=True)
+
+    def visualise_sarcasm(self):
+        df = self.df
+        st.subheader("Donut chart")
+        fig = px.pie(df, names='IsSarcasm', hole=0.3)
+        pie = go.Figure(fig)
+        st.plotly_chart(pie, use_container_width=True)

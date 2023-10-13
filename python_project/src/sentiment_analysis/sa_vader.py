@@ -4,13 +4,19 @@ Created by Ashsyahid H, October 2023.
 Released intto the public domain.
 '''
 import nltk
+import numpy as np
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 import pandas as pd
 import math
+import csv
+from scipy.special import softmax
 from transformers import pipeline
+from transformers import AutoTokenizer
+import urllib.request
+from transformers import AutoModelForSequenceClassification
 
 nltk.download('vader_lexicon')
 nltk.download('punkt')
@@ -43,6 +49,15 @@ class SentimentAnalyzer:
         else:
             # neutral
             return 'neutral'
+
+    def preprocess(self,text):
+        new_text = [
+        ]
+        for t in text.split(" "):
+            t = '@user' if t.startswith('@') and len(t) > 1 else t
+            t = 'http' if t.startswith('http') else t
+            new_text.append(t)
+        return " ".join(new_text)
 
     def preprocess_text(self, text):
         '''This method performs preprocessing on the input text.'''
@@ -112,3 +127,59 @@ class SentimentAnalyzer:
 
             df = pd.DataFrame.from_dict(d)
         return df
+
+    def analyze_sarcasm(self):
+        task = 'irony'
+        MODEL = f"cardiffnlp/twitter-roberta-base-{task}"
+        sarcasm = {'IsSarcasm': []}
+        tokenizer = AutoTokenizer.from_pretrained(MODEL)
+        labels = []
+        mapping_link = f"https://raw.githubusercontent.com/cardiffnlp/tweeteval/main/datasets/{task}/mapping.txt"
+        with urllib.request.urlopen(mapping_link) as f:
+            html = f.read().decode('utf-8').split("\n")
+            csvreader = csv.reader(html, delimiter='\t')
+        labels = [row[1] for row in csvreader if len(row) > 1]
+        # PT
+        model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+
+        df = self.df
+        df = df[df.loc[:, ['name']].values == self.name]
+        sarcasm = {'IsSarcasm': []}
+
+        # Assuming you've initialized tokenizer and model
+        for i, row in df.iterrows():
+            text = row['comment_content']
+            if len(text) > 500:
+                split_text = [text[i:i + 500] for i in range(0, len(text), 500)]
+            else:
+                split_text = [text]
+            total_sScore = 0
+            total_slScore = 0
+            for segment in split_text:
+                # Preprocess the segment
+
+                segment = self.preprocess(segment)
+
+                # Model inference
+                encoded_input = tokenizer(segment, return_tensors='pt')
+                output = model(**encoded_input)
+                scores = output[0][0].detach().numpy()
+                scores = softmax(scores)
+                ranking = np.argsort(scores)
+
+                l = labels[ranking[0]]
+                s = scores[ranking[0]]
+                ls = labels[ranking[1]]
+                sl = scores[ranking[1]]
+                total_sScore += s
+                total_slScore += sl
+
+            if total_slScore > total_sScore:
+                sarcasm['IsSarcasm'].append(ls)
+            else:
+                sarcasm['IsSarcasm'].append(l)
+
+
+        sarcasmdf = pd.DataFrame.from_dict(sarcasm)
+
+        return sarcasmdf

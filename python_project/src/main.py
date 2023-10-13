@@ -63,12 +63,15 @@ def main():
                 analyzer = SentimentAnalyzer(cleaned_new_df, selected_name)
                 df = analyzer.analyze_sentiment()
                 emotions = analyzer.analyze_emotions()
+                sarcasm = analyzer.analyze_sarcasm()
 
                 VisualS = Visualise(df, selected_name)
-                VisualS.visualise_sentiment()
                 Visual = Visualise(emotions, selected_name)
+                VisualSarcasm = Visualise(sarcasm, selected_name)
+                VisualS.visualise_sentiment()
                 Visual.visualise_ratings()
                 Visual.visualise_emotions()
+                VisualSarcasm.visualise_sarcasm()
 
                 # WordCloud on Reviews (text)
                 VisualS.visualise_wordcloud()
