@@ -17,11 +17,6 @@ class Visualise:
 
     def visualise_ratings(self):
         st.subheader("Bar Chart Comparison")
-        st.write("This bar graph provides a visual comparison between the original ratings and the produced points generated through Natural Language Processing (NLP). "
-                 "The ratings represent the subjective assessments of individuals, while the points are the NLP-generated scores. The x-axis displays the different levels of ratings, ranging from low to high. "
-                 "The y-axis indicates the frequency of each rating or point. The bars represent the count of occurrences for each rating or point, giving us an insightful view of the distribution. "
-                 "By examining this graph, we aim to assess the accuracy and effectiveness of the NLP model in producing points that align with the original ratings. Additionally, it helps us identify any potential discrepancies or trends between the two sets of data."
-                 "This comparison is crucial in evaluating the performance of the NLP system and gaining confidence in its ability to generate reliable assessments.")
         df = self.df
         original_ratings = df["ratings"]
         produced_ratings = df["points"]
@@ -36,7 +31,7 @@ class Visualise:
             x=original_bins[:-1],
             y=original_counts,
             name='Original Ratings',
-            marker=dict(color='blue')
+            marker_color= "#44528d"
         ))
 
         # Create a bar chart for produced ratings
@@ -44,7 +39,7 @@ class Visualise:
             x=produced_bins[:-1],
             y=produced_counts,
             name='Produced Ratings',
-            marker=dict(color='green')
+            marker_color= "#D8BFD8"
         ))
 
         # Update layout
@@ -57,7 +52,7 @@ class Visualise:
 
     def visualise_emotions(self):
         df = self.df
-        st.subheader("How cusotmers are feeling?")
+        st.subheader("How customers are feeling?")
         target_words = ["admiration", "amusement", "approval", "caring", "desire", "excitement",
                         "gratitude", "joy", "love", "optimism", "pride",
                         "confusion", "curiosity", "realization", "surprise", "neutral",
@@ -65,7 +60,7 @@ class Visualise:
                         "fear", "grief", "nervousness", "remorse", "sadness"]
 
         word_counts = {word: 0 for word in target_words}
-        title = df['name'][0]
+        title = self.name
 
         # Loop through each data row
         for i, row in df.iterrows():
@@ -78,42 +73,32 @@ class Visualise:
                 if word in target_words:
                     word_counts[word] += 1
 
-        emotion_mapping = {
-            'admiration': 'ADM', 'amusement': 'AMU', 'approval': 'APR', 'caring': 'CAR',
-            'desire': 'DES', 'excitement': 'EXC', 'gratitude': 'GRA', 'joy': 'JOY',
-            'love': 'LOV', 'optimism': 'OPT', 'pride': 'PRI', 'confusion': 'CON',
-            'curiosity': 'CUR', 'realization': 'REA', 'surprise': 'SUR', 'neutral': 'NEU',
-            'anger': 'ANG', 'annoyance': 'ANO', 'disappointment': 'DIS', 'disapproval': 'DAP',
-            'disgust': 'DIS', 'embarrassment': 'EMB', 'fear': 'FEA', 'grief': 'GRI',
-            'nervousness': 'NER', 'remorse': 'REM', 'sadness': 'SAD'
-        }
 
         # Create a new dictionary with three-letter codes as keys
-        updated_dict = {emotion_mapping[key]: value for key, value in word_counts.items()}
-        top_5_items = sorted(updated_dict.items(), key=lambda item: item[1], reverse=True)[:5]
+        top_5_items = sorted(word_counts.items(), key=lambda item: item[1], reverse=True)[:5]
 
         # Convert the list of tuples back to a dictionary
         top_5_dict = dict(top_5_items)
 
         # Extract keys and values
-        x_values = list(updated_dict.keys())
-        y_values = list(updated_dict.values())
+        x_values = list(word_counts.keys())
+        y_values = list(word_counts.values())
         x_value = list(top_5_dict.keys())
         y_value = list(top_5_dict.values())
 
         # Create a bar chart
         figu = go.Figure()
-
+        pastel_color = ['#FFB6C1']
         figu.add_trace(go.Bar(
             x=x_values,
             y=y_values,
-            marker_color='blue'
+            marker_color='#FFB6C1'
         ))
 
         # Add labels and title
         figu.update_layout(title=title,
-                           xaxis_title='Types of emotions',
-                           yaxis_title='Number of emotions individual felt')
+                           xaxis_title='Emotions',
+                           yaxis_title='Counts')
 
         st.plotly_chart(figu, use_container_width=True)
 
@@ -123,18 +108,15 @@ class Visualise:
         figur.add_trace(go.Bar(
             x=x_value,
             y=y_value,
-            marker_color='blue'
+            marker_color='#FFC0CB'
         ))
 
         # Add labels and title
-        figur.update_layout(xaxis_title='Types of emotions',
-                            yaxis_title='Number of emotions individual felt')
+        figur.update_layout(title=title,
+                           xaxis_title='Emotions',
+                           yaxis_title='Counts')
 
         st.plotly_chart(figur, use_container_width=True)
-        st.subheader('Legend')
-        st.write("ADM: admiration, AMU: amusement, APR: approval, CAR: caring, DES: desire, EXC: excitement, GRA: gratitude, JOY: joy, LOV: love, "
-                 "OPT: optimism, PRI: pride, CON: confusion,CUR: curiosity, REA: realization, SUR: surprise, NEU: neutral,ANG: anger, ANO: annoyance, "
-                 "DIS: disappointment, DAP: disapproval,DIS: disgust, EMB: embarrassment, FEA: fear, GRI: grief,NER: nervousness, REM: remorse, SAD: sadness")
 
     def visualise_wordcloud(self):
         name = self.name
@@ -149,7 +131,7 @@ class Visualise:
 
     def visualise_sentiment(self):
         df = self.df
-        chart1, chart2 = st.columns([1, 2])
+        chart1, chart2 = st.columns(2)
 
         # Sentiment Histogram
         with chart1:
@@ -173,3 +155,4 @@ class Visualise:
         fig = px.pie(df, names='IsSarcasm', hole=0.3)
         pie = go.Figure(fig)
         st.plotly_chart(pie, use_container_width=True)
+
