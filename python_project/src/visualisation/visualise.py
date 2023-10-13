@@ -149,7 +149,7 @@ class Visualise:
 
     def visualise_sentiment(self):
         df = self.df
-        chart1, chart2 = st.columns([1, 2])
+        chart1, chart2 = st.columns(2)
 
         # Sentiment Histogram
         with chart1:
