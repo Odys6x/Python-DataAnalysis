@@ -1,14 +1,17 @@
+import ast
+from collections import Counter
+
+import numpy as np
 import pandas as pd
 import streamlit as st
-import plotly.express as px
 import plotly.graph_objects as go
 from sentiment_analysis.sa_vader import SentimentAnalyzer
 from data_cleaning.cleaning import DataCleaning
-from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import sys
 import streamlit.web.cli as stcli
 from streamlit import runtime
+from visualisation.visualise import Visualise
 
 
 def main():
@@ -18,17 +21,13 @@ def main():
     # Create a sidebar menu with radio buttons
     st.sidebar.title("Menu")
 
-    selected_option = st.sidebar.radio(
-        "Select an option", ("Home", "EDA", "Sentiment Analysis", "Dataset")
-    )
+    selected_option = st.sidebar.radio("Select an option", ("Home", "EDA", "Sentiment Analysis", "Dataset"))
 
     # Display a welcome message on the main page
     st.title("Welcome")
     st.subheader("This is where Hotel Sentiment Analysis and Data Visualization begin.")
 
-    uploaded_file = st.file_uploader(
-        "Upload a CSV file to Begin", type=["csv", "xls", "json"]
-    )
+    uploaded_file = st.file_uploader("Upload a CSV file to Begin", type=["csv", "xls", "json"])
     st.write("Navigation is made possible with Menu Panel (Top LEFT of the Page)")
 
     # Main app logic
@@ -37,62 +36,46 @@ def main():
         file_extension = uploaded_file.name.split(".")[-1].lower()
 
         match file_extension:
-            case "csv":
+            case 'csv':
                 data = pd.read_csv(uploaded_file)
                 data_cleaner = DataCleaning()
-                data = data_cleaner.cleaned_df(data)
+                cleaned_new_df = data_cleaner.cleaned_df(data)
 
-            case "xls" | "xlsx":
+            case 'xls' | 'xlsx':
                 data = pd.read_excel(uploaded_file, engine="openpyxl")
-            case "json":
+            case 'json':
                 data = pd.read_json(uploaded_file)
 
-        unique_values = data["name"].unique()
+        unique_values = data['name'].unique()
+        # sort hotel names
+        unique_values.sort()
         # selected name of hotel
-        selected_name = st.selectbox("Select a value:", unique_values)
+        selected_name = st.selectbox('Select a value:', unique_values)
 
         # Depending on the selected sidebar option, show different content
         match selected_option:
-            case "EDA":
+            case 'EDA':
                 st.title("Exploratory Data Analysis")
                 # Add code for EDA here
 
-            case "Sentiment Analysis":
-                analyzer = SentimentAnalyzer(data, selected_name)
+            case 'Sentiment Analysis':
+
+                analyzer = SentimentAnalyzer(cleaned_new_df, selected_name)
                 df = analyzer.analyze_sentiment()
+                emotions = analyzer.analyze_emotions()
 
-                st.title(f"Sentiment Analysis for {selected_name}")
-                chart1, chart2 = st.columns(2)
-
-                with chart1:
-                    # Sentiment Count Histogram
-                    st.subheader("Histogram")
-                    sentiment_counts = df['sentiment']
-                    fig = px.histogram(df, x='sentiment', color='sentiment')
-                    fig.update_xaxes(categoryorder='array', categoryarray=['neg', 'neu', 'pos'])
-                    histogram = go.Figure(fig)
-                    st.plotly_chart(histogram, use_container_width=True)
-                    
-                with chart2: 
-                    # Sentiment distribution donut chart
-                    st.subheader("Donut chart")
-                    sentiment_counts = df['sentiment']
-                    fig = px.pie(df, names='sentiment', hole=0.3)
-                    pie = go.Figure(fig)
-                    st.plotly_chart(pie, use_container_width=True)
+                VisualS = Visualise(df, selected_name)
+                VisualS.visualise_sentiment()
+                Visual = Visualise(emotions, selected_name)
+                Visual.visualise_ratings()
+                Visual.visualise_emotions()
 
                 # WordCloud on Reviews (text)
-                st.subheader(f'Word Cloud for {selected_name}')
-                text = ''.join(df['comment_content'])
-                word_cloud = WordCloud(collocations=False, background_color='black', width=800, height=400).generate(text)
-                plt.imshow(word_cloud, interpolation='bilinear')
-                plt.axis('off')
-                st.pyplot(plt)
-                st.subheader("Sentiment Over Time (Stream Graph)")
+                VisualS.visualise_wordcloud()
 
-            case "Dataset":
+            case 'Dataset':
                 st.title("Dataset")
-                selected_row = data[data["name"] == selected_name]
+                selected_row = data[data['name'] == selected_name]
                 st.write(selected_row)
 
     else:
