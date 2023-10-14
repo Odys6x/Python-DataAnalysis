@@ -119,13 +119,27 @@ class Visualise:
         st.plotly_chart(figur, use_container_width=True)
 
     def visualise_wordcloud(self):
+        '''This function creates a word cloud for positive and negative sentiments'''
         name = self.name
         df = self.df
-        st.subheader(f'Word Cloud for {name}')
-        text = ''.join(df['comment_content'])
-        word_cloud = WordCloud(collocations=False, background_color='black', width=800, height=400).generate(
-            text)
-        plt.imshow(word_cloud, interpolation='bilinear')
+        # filter df to retrieve positive and negative sentiments
+        df_pos = df.loc[df['sentiment'] == 'positive']
+        df_neg = df.loc[df['sentiment'] == 'negative']
+
+        text_pos = ''.join(comment for comment in df_pos['comment_content'])
+        word_cloud_pos = WordCloud(collocations=False, background_color='black', width=800, height=400).generate(
+            text_pos)
+        text_neg = ''.join(comment for comment in df_neg['comment_content'])
+        word_cloud_neg = WordCloud(collocations=False, background_color='black', width=800, height=400).generate(
+            text_neg)
+        # plot positive word cloud
+        st.subheader(f'Positive word Cloud for {name}')
+        plt.imshow(word_cloud_pos, interpolation='bilinear')
+        plt.axis('off')
+        st.pyplot(plt)
+        # plot negative word cloud
+        st.subheader(f'Negative word Cloud for {name}')
+        plt.imshow(word_cloud_neg, interpolation='bilinear')
         plt.axis('off')
         st.pyplot(plt)
 
