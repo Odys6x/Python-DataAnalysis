@@ -62,10 +62,15 @@ def main():
         # Depending on the selected sidebar option, show different content
         match selected_option:
             case "EDA":
-                st.title(f"Exploratory Data Analysis for {selected_name}")
+                st.title(f"Exploratory Data Analysis")
                 eda = EDA.create_instance(cleaned_new_df, selected_name)
+                eda_all_names = EDA(pd.DataFrame(cleaned_new_df))
 
+                st.title(f"Review Count by {selected_name}")
                 eda.plot_review_count_by_rating()
+                eda_all_names.plot_average_price_by_rating()
+                eda_all_names.plot_average_hotel_class_by_rating()
+                eda_all_names.plot_grouped_bar_chart_for_avg_categories()
 
             case "Sentiment Analysis":
                 st.title(f"Sentiment Analysis for {selected_name}")
