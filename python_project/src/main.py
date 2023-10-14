@@ -7,6 +7,7 @@ import streamlit as st
 import plotly.graph_objects as go
 from sentiment_analysis.sa_vader import SentimentAnalyzer
 from data_cleaning.cleaning import DataCleaning
+from visualisation.eda import EDA
 import matplotlib.pyplot as plt
 import sys
 import streamlit.web.cli as stcli
@@ -61,8 +62,10 @@ def main():
         # Depending on the selected sidebar option, show different content
         match selected_option:
             case "EDA":
-                st.title("Exploratory Data Analysis")
-                # Add code for EDA here
+                st.title(f"Exploratory Data Analysis for {selected_name}")
+                eda = EDA.create_instance(cleaned_new_df, selected_name)
+
+                eda.plot_review_count_by_rating()
 
             case "Sentiment Analysis":
                 st.title(f"Sentiment Analysis for {selected_name}")

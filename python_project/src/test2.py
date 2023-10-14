@@ -1,22 +1,14 @@
-# import sys
-# import pandas as pd
+import pandas as pd
+from data_cleaning.cleaning import DataCleaning
+from visualisation.eda import EDA
 
-# sys.path.insert(0, "src/data_cleaning")
+df1 = pd.read_csv("data/raw/Finalised_Total_Reviews.csv")
+df2 = pd.read_csv("data/raw/Hotel_List.csv")
+data = pd.merge(df1, df2, on="Name", how="left")
+data_cleaner = DataCleaning()
+cleaned_new_df = data_cleaner.cleaned_df(data)
 
-# from cleaning import DataCleaning
+eda = EDA(data)
 
-
-# filepath = "data/raw/refined.csv"
-# df = pd.read_csv(filepath)
-
-# data_cleaner = DataCleaning()
-# cleaned_new_df = data_cleaner.cleaned_df(df)
-
-# print(cleaned_new_df)
-import os
-
-# get the current working directory
-current_working_directory = os.getcwd()
-
-# print output to the console
-print(current_working_directory)
+# Call the plot_rating_counts method to create the plot
+eda.plot_review_count_by_rating()

@@ -115,6 +115,10 @@ class DataCleaning:
         )
         return df
 
+    def change_price(self, df):
+        df["price"] = df["price"].str.replace("SGD", "").astype(int)
+        return df
+
     def create_index(self, df):
         """
         Adds an 'index' column to the DataFrame.
@@ -146,5 +150,6 @@ class DataCleaning:
         df = data_cleaner.replace_not_ascii(df)
         df = data_cleaner.overall_experience(df)
         df = data_cleaner.rename_hotel_class(df)
+        df = data_cleaner.change_price(df)
         df = data_cleaner.create_index(df)
         return df
