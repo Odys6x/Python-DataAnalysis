@@ -64,9 +64,13 @@ def main():
             case "EDA":
                 st.title(f"Exploratory Data Analysis for {selected_name}")
                 eda = EDA.create_instance(cleaned_new_df, selected_name)
+                eda_all = EDA.create_instance_all(cleaned_new_df)
 
                 eda.plot_review_count_by_rating()
-                eda.plot_amenities_by_rating()
+                # General overview
+                eda_all.plot_amenities_by_rating()
+                eda_all.plot_amenities_by_rating_color_map()
+                eda_all.plot_amenities_by_rating_box_whisker()
 
             case "Sentiment Analysis":
                 st.title(f"Sentiment Analysis for {selected_name}")
