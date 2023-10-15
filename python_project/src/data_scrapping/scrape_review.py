@@ -67,8 +67,7 @@ def scraping():
             "Title": [],
             "Comment_content": [],
             "Date": [],
-            "Hotel_class": [],
-            "Good_to_know": []
+ 
         }
 
         while True:
@@ -82,8 +81,7 @@ def scraping():
                     d['Comment_content'].append(sc.get_review(soup)[i])
                     d['Overall_experience'].append(sc.get_overall_exp(soup))
                     d['Review_count'].append(sc.get_review_count(soup))
-                    d['Hotel_class'].append(sc.get_hotel_class(soup))
-                    d['Good_to_know'].append(sc.get_overall_details(soup))
+                    
                 count += 1
                 print(f"Scraped data from hotel: {count} + {d['Name'][i]}")
 

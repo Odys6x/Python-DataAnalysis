@@ -38,7 +38,8 @@ def scrape_hotel():
             links_list.append(link.get('href'))
 
         d = {"Name": [], "Address": [], "Price": [], "Amenities": [], 'Hotel_ratings': [], 'Description': [],
-         'Near_Restaurant': [], 'Near_Attractions': []}
+         'Near_Restaurant': [], 'Near_Attractions': [], "Hotel_class": [],
+            "Good_to_know": []}
 
         count = 0
         for link in links_list:
@@ -52,6 +53,9 @@ def scrape_hotel():
             d['Description'].append(sc.descrip(new_soup))
             d['Near_Restaurant'].append(sc.get_near_Restaurant(new_soup))
             d['Near_Attractions'].append(sc.get_near_attr(new_soup))
+            d['Hotel_class'].append(sc.get_hotel_class(soup))
+            d['Good_to_know'].append(sc.get_overall_details(soup))
+            
             count += 1
         
             print(f"Scraped data from page {page}, hotel {count},{t.ctime()}")

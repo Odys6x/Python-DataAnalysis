@@ -66,6 +66,7 @@ def main():
                 eda = EDA.create_instance(cleaned_new_df, selected_name)
 
                 eda.plot_review_count_by_rating()
+                eda.plot_amenities_by_rating()
 
             case "Sentiment Analysis":
                 st.title(f"Sentiment Analysis for {selected_name}")
