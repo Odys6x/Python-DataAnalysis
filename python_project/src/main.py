@@ -70,10 +70,8 @@ def main():
 
 
                 st.title(f"Review Count by {selected_name}")
-                eda.plot_review_count_by_rating()
                 # General overview
                 eda_all_names.plot_amenities_by_rating()
-                eda_all_names.plot_amenities_by_rating_color_map()
                 eda_all_names.plot_amenities_by_rating_box_whisker()
                 eda_all_names.plot_average_price_by_rating()
                 eda_all_names.plot_average_hotel_class_by_rating()

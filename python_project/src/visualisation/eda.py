@@ -78,35 +78,7 @@ class EDA:
         )
         st.plotly_chart(fig)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#junhong
+    #junhong
     def plot_amenities_by_rating(self):
         st.title("Unique Hotels: Amenities Count and Rating")
 
@@ -140,39 +112,19 @@ class EDA:
         )
         # Display the plot
         st.plotly_chart(fig)
-
-    def plot_amenities_by_rating_color_map(self):
-        self.df['amenities_list'] = self.df['amenities'].str.split(', ')
-        self.df['amenities_count'] = self.df['amenities_list'].apply(len)
-        color_scale =px.colors.sequential.Plasma
-        fig =px.scatter(
-            self.df,
-            x='hotel_average_ratings',
-            y='amenities_count',
-           
-            color='hotel_average_ratings',
-            text=None,
-            hover_name='name',
-            hover_data={'name': True}, 
-            color_continuous_scale=color_scale,
-            title="Hotel Ratings vs. Amenities Count"
-        )
-        fig.update_coloraxes(colorbar_title="Ratings")
-
-        # Show the plot
-        st.plotly_chart(fig)
         
     def plot_amenities_by_rating_box_whisker(self):
-        self.df['amenities_list'] = self.df['amenities'].str.split(', ')
-        self.df['amenities_count'] = self.df['amenities_list'].apply(len)
+        amenities_list = self.df['amenities'].str.split(', ')
+        amenities_count = amenities_list.apply(len)
+        ratings = self.df['hotel_average_ratings']
+        df = self.df
 
     # Create a box and whisker plot
-        fig, ax = plt.subplots()
-        ax.boxplot([self.df['amenities_count'], self.df['hotel_average_ratings']], vert=False, labels=['Amenities Count', 'Rating'])
-
-    # Add labels and a title
-        ax.set_xlabel('Value')
-        ax.set_title('Box and Whisker Plot: Amenities Count vs. Rating')
-
-    # Show the plot using Streamlit
-        st.pyplot(fig)
+        fig = px.box(df, x=ratings, y=amenities_count, title='Box and Whisker Plot')
+        fig.update_layout(
+            yaxis_title="Amenities Count",
+            xaxis_title="Hotel Ratings"
+        )
+        fig.update_xaxes(range=[2.5, max(ratings)])
+        # Showing the plot
+        st.plotly_chart(fig)
