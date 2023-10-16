@@ -3,6 +3,7 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import altair as alt
 
 
@@ -60,7 +61,7 @@ class EDA:
             x="rating",
             y="avg_score",
             color="category",
-            title="Average Ratings for Selected Categories for all hotels (Stacked)",
+            title="Average Ratings for Selected Categories for all hotels",
             barmode="relative",  # Stacked bars
             category_orders={
                 "rating": ["Low", "Medium", "High"]
@@ -157,7 +158,7 @@ class EDA:
 
         st.plotly_chart(fig, use_container_width=True)
 
-    def visualize_ratings_by_date(self):
+    def plot_average_ratings_by_date(self):
         # Extract the month and year from the "Date of stay" column
         self.df["date"] = pd.to_datetime(
             self.df["date"], format="Date of stay: %B %Y", errors="coerce"
@@ -185,7 +186,7 @@ class EDA:
         )
         fig.update_traces(mode="lines+markers")  # Add markers to the line chart
 
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
     def plot_near_attractions_restaurants3(self):
         # Split the "near_attraction" column into separate columns for restaurants and attractions
@@ -246,7 +247,7 @@ class EDA:
             average_ratings_restaurants,
             x="restaurants_bin",
             y="rating",
-            title="Average Ratings vs. Number of Restaurants for all hotels (Binned)",
+            title="Average Ratings vs. Number of Restaurants for all hotels",
             labels={
                 "restaurants_bin": "Number of Restaurants",
                 "rating": "Average Rating",
@@ -257,7 +258,7 @@ class EDA:
             average_ratings_attractions,
             x="attractions_bin",
             y="rating",
-            title="Average Ratings vs. Number of Attractions for all hotels (Binned)",
+            title="Average Ratings vs. Number of Attractions for all hotels",
             labels={
                 "attractions_bin": "Number of Attractions",
                 "rating": "Average Rating",
@@ -271,8 +272,3 @@ class EDA:
 
         with col2:
             st.plotly_chart(fig2)
-
-
-# Example usage:
-# Assuming you have a DataFrame called 'df' with the 'near_attractions' and 'rating' columns
-# plot_near_attractions_box_whisker(df)
