@@ -14,7 +14,7 @@ def scraping():
     Scrapes hotel review data from TripAdvisor for a list of specified URLs and saves the data in CSV files.
     
     This function scrapes data such as hotel names, review titles, dates, ratings, average ratings,
-    review content, and overall experiences from TripAdvisor.
+    review content, and overall experiences from TripAdvisor.git
     
     Example usage:
     If this script is executed directly, it will start scraping hotel review data and save it to CSV files
