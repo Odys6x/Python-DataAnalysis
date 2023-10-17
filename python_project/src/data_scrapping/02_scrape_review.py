@@ -10,6 +10,17 @@ from streamlit import runtime
 
 
 def scraping():
+    """
+    Scrapes hotel review data from TripAdvisor for a list of specified URLs and saves the data in CSV files.
+    
+    This function scrapes data such as hotel names, review titles, dates, ratings, average ratings,
+    review content, and overall experiences from TripAdvisor.
+    
+    Example usage:
+    If this script is executed directly, it will start scraping hotel review data and save it to CSV files
+    in the '../data/raw/02_individual_hotel/' directory. The scraping progress and errors are logged in
+    the 'scraping_log.txt' file in the '../log_message/' directory.
+    """
     
     log_filename = '../log_message/scraping_log.txt'
     logging.basicConfig(filename=log_filename, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
