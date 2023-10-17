@@ -180,6 +180,7 @@ class SentimentAnalyzer:
         This function performs sentiment analysis on emotions in the given Pandas DataFrame.
 
         This function analyzes emotions in comments from the input DataFrame for a specific task related to sentiment analysis.
+        It splits into 500 characters and put them into a list
         It categorizes comments based on the expressed emotions and assigns points accordingly. The resulting DataFrame contains
         the name, identified emotions, calculated points, and original ratings for each comment.
 
@@ -235,7 +236,7 @@ class SentimentAnalyzer:
     def analyze_sarcasm(self):
         """
         This function analyzes sarcasm in comments using a pre-trained model.
-
+        It splits into 500 characters and put them into a list
         This function analyzes sarcasm in comments from the input DataFrame for a specific task related to irony/sarcasm detection.
         It uses a pre-trained model to classify comments as sarcastic or not based on a given threshold.
 

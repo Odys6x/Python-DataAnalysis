@@ -16,6 +16,12 @@ class Visualise:
 
 
     def visualise_ratings(self):
+        """
+        This function plots the relationship between original ratings and machine learning produced rating for the selected hotel.
+
+        Returns:
+            None
+        """
         st.subheader("Bar Chart Comparison")
         df = self.df
         original_ratings = df["ratings"]
@@ -51,6 +57,12 @@ class Visualise:
         st.plotly_chart(fig, use_container_width=True)
 
     def visualise_emotions(self):
+        """
+        This function plots the 28 emotions of how the customer feels towwards the hotel.
+
+        Returns:
+            None
+        """
         df = self.df
         st.subheader("How customers are feeling?")
         target_words = ["admiration", "amusement", "approval", "caring", "desire", "excitement",
@@ -164,6 +176,12 @@ class Visualise:
             st.plotly_chart(pie, use_container_width=True)
 
     def visualise_sarcasm(self):
+        """
+        This function plots a donut chart of the number of sarcastic words non sarcastic words.
+
+        Returns:
+            None
+        """
         df = self.df
         st.subheader("Donut chart")
         fig = px.pie(df, names='IsSarcasm', hole=0.3)
