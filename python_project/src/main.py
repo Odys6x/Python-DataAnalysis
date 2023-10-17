@@ -65,18 +65,32 @@ def main():
                 st.title(f"Exploratory Data Analysis")
                 eda = EDA.create_instance(cleaned_new_df, selected_name)
 
-
                 eda_all_names = EDA(pd.DataFrame(cleaned_new_df))
 
-
-                st.title(f"Review Count by {selected_name}")
+                st.title(f"{selected_name}")
                 # General overview
-                eda_all_names.plot_amenities_by_rating()
-                eda_all_names.plot_amenities_by_rating_box_whisker()
-                eda_all_names.plot_average_price_by_rating()
-                eda_all_names.plot_average_hotel_class_by_rating()
-                eda_all_names.plot_grouped_bar_chart_for_avg_categories()
+                eda.plot_review_count_by_rating()
+                eda.plot_average_ratings_by_date()
 
+                st.title(f"All hotels")
+                chart1, chart2 = st.columns(2)
+                with chart1:
+                    eda_all_names.plot_average_price_by_rating()
+                with chart2:
+                    eda_all_names.plot_average_hotel_class_by_rating()
+                st.write("")  # Add some spacing between the rows
+
+                chart3, chart4 = st.columns(2)
+
+                with chart3:
+                    eda_all_names.plot_amenities_by_rating()
+
+                with chart4:
+                    eda_all_names.plot_amenities_by_rating_box_whisker()
+                eda_all_names.plot_review_count_by_rating_box_whisker()
+                eda_all_names.plot_grouped_bar_chart_for_avg_categories()
+                eda_all_names.plot_near_attractions_restaurants()
+                eda_all_names.plot_near_attractions_restaurants3()
 
             case "Sentiment Analysis":
                 st.title(f"Sentiment Analysis for {selected_name}")

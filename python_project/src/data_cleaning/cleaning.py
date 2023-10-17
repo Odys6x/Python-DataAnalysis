@@ -6,7 +6,7 @@ from data_fetching.extraction import fetch_data
 
 class DataCleaning:
     """
-    A class for data cleaning operations on a DataFrame.
+    This class does data cleaning operations on a DataFrame.
 
     Methods
     -------
@@ -35,7 +35,7 @@ class DataCleaning:
 
     def rename_column(self, df):
         """
-        Renames columns by replacing spaces with underscores and converting to lowercase.
+        This function renames columns by replacing spaces with underscores and converting to lowercase.
 
         Parameters
         ----------
@@ -53,7 +53,7 @@ class DataCleaning:
 
     def replace_not_ascii(self, df):
         """
-        Replaces non-ASCII characters in the 'comment_content' column with UTF-8 encoded characters.
+        This function replaces non-ASCII characters in the 'comment_content' column with UTF-8 encoded characters.
 
         Parameters
         ----------
@@ -72,7 +72,7 @@ class DataCleaning:
 
     def overall_experience(self, df):
         """
-        Extracts and converts values from the 'overall_experience' column.
+        This function extracts and converts values from the 'overall_experience' column.
 
         Parameters
         ----------
@@ -98,7 +98,7 @@ class DataCleaning:
 
     def rename_hotel_class(self, df):
         """
-        Extracts and converts the 'hotel_class' column to a float.
+        This function extracts and converts the 'hotel_class' column to a float.
 
         Parameters
         ----------
@@ -121,7 +121,7 @@ class DataCleaning:
 
     def create_index(self, df):
         """
-        Adds an 'index' column to the DataFrame.
+        This function adds an 'index' column to the DataFrame.
 
         Parameters
         ----------
@@ -136,9 +136,16 @@ class DataCleaning:
         df.insert(0, "index", df.index + 1)
         return df
 
+    def change_time(self, df):
+        df["date"] = pd.to_datetime(
+            df["date"], format="Date of stay: %B %Y", errors="coerce"
+        )
+        df.dropna(subset=["date"], inplace=True)
+        return df
+
     def cleaned_df(self, df):
         """
-        Performs a sequence of data cleaning operations on the DataFrame.
+        This function performs a sequence of data cleaning operations on the DataFrame.
 
         Returns
         -------
@@ -152,4 +159,5 @@ class DataCleaning:
         df = data_cleaner.rename_hotel_class(df)
         df = data_cleaner.change_price(df)
         df = data_cleaner.create_index(df)
+        df = data_cleaner.change_time(df)
         return df
