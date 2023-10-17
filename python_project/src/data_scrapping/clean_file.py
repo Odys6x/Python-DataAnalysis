@@ -22,7 +22,7 @@ merged_df = pd.concat(dataframes, ignore_index=True)
 merged_df = merged_df.drop_duplicates(subset=["Comment_content"])
 
 # Save the final merged DataFrame to a new CSV file
-merged_csv_filename = "../data/raw/03 merged_hotel_comment/Finalised_Total_Reviews - Finalised_Total_Reviews.csv"
+merged_csv_filename = "../data/raw/Finalised_Total_Reviews.csv"
 merged_df.to_csv(merged_csv_filename, index=False)
 
 print(f"Merged data saved to {merged_csv_filename}")

@@ -66,7 +66,7 @@ def scrape_hotel():
 
     print(final_df)
 
-    final_df.to_csv("../data/raw/01 scrape_all_hotel/Hotel_30_840.csv", header=True, index=False)
+    final_df.to_csv("../data/raw/Hotel_List.csv", header=True, index=False)
 
 if __name__ == "__scrape_hotel__":
     if runtime.exists():

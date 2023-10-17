@@ -96,7 +96,7 @@ def scraping():
 
             df = pd.DataFrame.from_dict(d)
      
-            csv_filename = f"../data/raw/02 individual_hotel/{filename}.csv"
+            csv_filename = f"../data/raw/02_individual_hotel/{filename}.csv"
             df.to_csv(csv_filename, mode='a', header=True, index=False)
             d = {
                 "Name": [],

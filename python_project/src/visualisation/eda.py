@@ -150,7 +150,7 @@ class EDA:
         )
 
         fig.update_traces(marker=dict(size=6))
-        st.plotly_chart(fig)
+        st.plotly_chart(fig,use_container_width=True)
 
     def plot_amenities_by_rating_box_whisker(self):
         """
