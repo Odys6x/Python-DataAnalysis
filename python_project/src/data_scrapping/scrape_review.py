@@ -11,14 +11,11 @@ from streamlit import runtime
 
 def scraping():
     
-    # Configure logging file
     log_filename = '../log_message/scraping_log.txt'
     logging.basicConfig(filename=log_filename, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    # Use logging to indicate the start of scraping
     logging.info("Scraping started.")
 
-    # Define the base URL with a placeholder for the page number
     BASE_URL = "https://www.tripadvisor.com/"
 
     HEADERS = {
@@ -30,34 +27,28 @@ def scraping():
     scrape_links = data["Scrape_links"].tolist()
 
     count=0
-    # Define initial delay and response time threshold
     initial_delay = 5  # seconds
     response_time_threshold = 3  # seconds
 
 
 
-    # Rest of your code for processing the link
     for index, link in enumerate(scrape_links):
         filename=data["Links"][index]
         full_url = BASE_URL + link
-        start_time = time.time()  # Record the start time of the request
+        start_time = time.time()  
         webpage = requests.get(full_url, headers=HEADERS)
-        end_time = time.time()  # Record the end time of the request
-        response_time = end_time - start_time  # Calculate the response time
+        end_time = time.time()  
+        response_time = end_time - start_time  
 
         if response_time < response_time_threshold:
-            # If the server responds quickly, increase the delay slightly
             adjusted_delay = initial_delay + 1
         else:
-            # If the server responds slowly, keep the delay the same
             adjusted_delay = initial_delay
 
-        # Apply the adjusted delay before the next request
         time.sleep(adjusted_delay)
 
         soup = BeautifulSoup(webpage.content, "html.parser")
 
-        # Initialize the dictionary for each hotel
         d = {
             "Name": [],
             "Review_count": [],
@@ -85,22 +76,19 @@ def scraping():
                 count += 1
                 print(f"Scraped data from hotel: {count} + {d['Name'][i]}")
 
-                # Check if there's a "Next" button for pagination
                 next_button = soup.find("a", class_="ui_button nav next primary")
                 if next_button:
                     next_page_url = BASE_URL + next_button.get("href")
-                    start_time = time.time()  # Record the start time of the request
+                    start_time = time.time()  
                     webpage = requests.get(next_page_url, headers=HEADERS)
-                    end_time = time.time()  # Record the end time of the request
-                    response_time = end_time - start_time  # Calculate the response time
+                    end_time = time.time()  
+                    response_time = end_time - start_time
                     soup = BeautifulSoup(webpage.content, "html.parser")
                 else:
-                    # Check for the "disabled" class to determine if there are no more pages
                     next_button_disabled = soup.find("a", class_="ui_button nav next primary disabled")
                     if next_button_disabled:
-                        break  # No more pages to scrape
+                        break  
                     else:
-                        # If "disabled" class is not present but "Next" button is missing, break to avoid an infinite loop
                         break
                 
             except Exception as e:
@@ -108,10 +96,8 @@ def scraping():
 
             df = pd.DataFrame.from_dict(d)
      
-            # Save the data to a CSV file after each hotel page is scraped 
             csv_filename = f"../data/raw/02 individual_hotel/{filename}.csv"
             df.to_csv(csv_filename, mode='a', header=True, index=False)
-            # Clear the dataframe
             d = {
                 "Name": [],
                 "Review_count": [],

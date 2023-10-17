@@ -3,7 +3,7 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 import plotly.express as px
-import altair as alt
+
 
 
 class EDA:
@@ -81,18 +81,13 @@ class EDA:
     #junhong
     def plot_amenities_by_rating(self):
         st.title("Unique Hotels: Amenities Count and Rating")
-
-        # Split the "Amenities" column and count the amenities for each row
         self.df['amenities_list'] = self.df['amenities'].str.split(', ')
         self.df['amenities_count'] = self.df['amenities_list'].apply(len)
-
-        # Group by unique hotel names, calculate the mean rating and sum of amenities count
         grouped_df = self.df.groupby('name', as_index=False).agg({
             'amenities_count': 'first',
             'hotel_average_ratings': 'first'
         })
 
-        # Create a scatter plot using Plotly Express with color based on mean rating
         fig = px.scatter(
             grouped_df,
             x='name',
@@ -100,31 +95,27 @@ class EDA:
             color='hotel_average_ratings',
             title="Unique Hotels: Amenities Count vs. Rating",
             labels={'name': 'Hotel Name', 'amenities_count': 'Amenities Count', 'hotel_average_ratings': 'Rating'},
-            color_continuous_scale='Viridis',  # Choose a color scale
+            color_continuous_scale='Viridis',  
         )
-        fig.update_traces(marker=dict(size=12))  # Adjust marker size
+        fig.update_traces(marker=dict(size=12))  
 
-        # Customize the layout
         fig.update_layout(
             xaxis_title="Hotel Name",
             yaxis_title="Amenities Count",
-            coloraxis_colorbar=dict(title="Rating"),  # Define the color axis label
+            coloraxis_colorbar=dict(title="Rating"),  
         )
-        # Display the plot
         st.plotly_chart(fig)
         
     def plot_amenities_by_rating_box_whisker(self):
         amenities_list = self.df['amenities'].str.split(', ')
         amenities_count = amenities_list.apply(len)
         ratings = self.df['hotel_average_ratings']
-        df = self.df
-
-    # Create a box and whisker plot
-        fig = px.box(df, x=ratings, y=amenities_count, title='Box and Whisker Plot')
+        fig = px.box(self.df, x=ratings, y=amenities_count, title='Box and Whisker Plot')
         fig.update_layout(
             yaxis_title="Amenities Count",
             xaxis_title="Hotel Ratings"
         )
         fig.update_xaxes(range=[2.5, max(ratings)])
-        # Showing the plot
         st.plotly_chart(fig)
+   
+
