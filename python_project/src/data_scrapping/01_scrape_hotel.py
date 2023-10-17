@@ -20,6 +20,21 @@ HEADERS = {
 all_data = []
 
 def scrape_hotel():
+    """
+    Scrapes hotel data from multiple pages of TripAdvisor, including hotel names, addresses, prices, amenities,
+    ratings, descriptions, nearby restaurants and attractions, hotel classes, and other details. The scraped data
+    is stored in a CSV file named 'Hotel_List.csv' in the '../data/raw/' directory.
+
+    Note:
+    - The scraping starts from page 1 and continues until page 840 (last page) (in increments of 30).
+    - The HEADERS simulate a user-agent for making web requests.
+    - The 'scrape_method' module is assumed to contain scraping functions (not shown here).
+
+
+
+    Example usage:
+    If this script is executed directly, it will scrape hotel data and save it to 'Hotel_List.csv'.
+    """
     
     for page in range(start_page, end_page +1, 30):
         url = base_url.format(page)
