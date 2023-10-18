@@ -43,9 +43,9 @@ def main():
         match file_extension:
             case "csv":
                 df1 = pd.read_csv(uploaded_file)
-                #df2 = pd.read_csv("data/raw/Hotel_List.csv")
-                df2 = pd.read_csv("C:/Users/Swee Jun Hong/Desktop/SIT/Programming fundamentals/python_group_project/github_project_2/OurProj/python_project/data/raw/Hotel_List.csv")
-                
+                df2 = pd.read_csv("data/raw/Hotel_List.csv")
+                # df2 = pd.read_csv("C:/Users/Swee Jun Hong/Desktop/SIT/Programming fundamentals/python_group_project/github_project_2/OurProj/python_project/data/raw/Hotel_List.csv")
+
                 data = pd.merge(df1, df2, on="Name", how="left")
                 data_cleaner = DataCleaning()
                 cleaned_new_df = data_cleaner.cleaned_df(data)
@@ -82,7 +82,7 @@ def main():
                     eda_all_names.plot_average_hotel_class_by_rating()
                 st.write("")  # Add some spacing between the rows
 
-                chart3, chart4 = st.columns([3,4])
+                chart3, chart4 = st.columns([3, 4])
 
                 with chart3:
                     eda_all_names.plot_amenities_by_rating()

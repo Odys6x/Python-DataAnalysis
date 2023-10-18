@@ -2,7 +2,6 @@ Programming fundamentals project
 ==============================
 
 - Remeber to follow PEP8 guys ;)
-- Hotel review sentiment analysisisisisisissisisisisisisisisisisisis :)
 - feel free to update this markdown fileeeeeeeee
 
 # Getting started 
@@ -41,15 +40,17 @@ Project structure
     |
     ├── src                      <- Source code for use in this project.
     │   │
-    │   ├── data cleaning        <- Scripts to turn raw data into features for modeling
-    │   │   └── make_dataset.py
+    │   ├── data_cleaning        <- Scripts to turn raw data into features for modeling
+    │   │   └── cleaning.py
     │   │
-    │   ├── data fetching        <- Scripts to download or generate data
-    │   │   └── extraction.py
+    │   ├── data_scrapping       <- Scripts to download or generate data
+    │   │   |── 01_scrape_hotel.py
+    |   |   |── 02_scrape_review.py
+    |   |   └── 03_clean_file.py
     │   │
-    │   ├── sentiment analysis   <- Scripts to create sentiment analysis
+    │   ├── sentiment_analysis   <- Scripts to create sentiment analysis
     │   │   │                 
-    │   │   └── sa.py
+    │   │   └── sa_vader.py
     │   │   
     │   ├── visualisation        <- EDA
     |   |     └── visualise.py    
@@ -60,5 +61,14 @@ Project structure
     |
     └── requirements.txt         <- Dependencies
 
+# How to run this project FOR PROFESSORS
+1. run main.py script in src directory
+2. drag & drop Finalised_Total_Reviews.csv from data/raw/ into GUI
+3. access rabs on the left and select hotels to be analysed from drop down bar
 
-##we can do this guyssssss
+# How to run this project
+1. Run 01_scrape_hotel.py, 02_scrape_review.py and 02_scrape_review.py in order from the data_scrapping directory
+2. Files Hotel_list.csv & Finalised_Total_Reviews.csv will be generated in data/raw directory
+3. run main.py script in src directory
+4. drag & drop Finalised_Total_Reviews.csv into GUI
+5. access rabs on the left and select hotels to be analysed from drop down bar

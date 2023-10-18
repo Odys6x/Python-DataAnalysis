@@ -3,9 +3,7 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
-import altair as alt
-import re
+
 
 class EDA:
     def __init__(self, df, name=None):
@@ -150,7 +148,7 @@ class EDA:
         )
 
         fig.update_traces(marker=dict(size=6))
-        st.plotly_chart(fig,use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
     def plot_amenities_by_rating_box_whisker(self):
         """
@@ -324,7 +322,6 @@ class EDA:
         with col2:
             st.plotly_chart(fig2)
 
-
     def plot_review_count_by_rating_box_whisker(self):
         """
         This function plots a box and whisker plot for review count by rating for the selected hotel.
@@ -332,7 +329,14 @@ class EDA:
         Returns:
             None
         """
-        self.df['review_count'] = self.df['review_count'].fillna("0").astype(str).str.replace(',', '', regex=True).str.extract('(\d+)').astype(int)
+        self.df["review_count"] = (
+            self.df["review_count"]
+            .fillna("0")
+            .astype(str)
+            .str.replace(",", "", regex=True)
+            .str.extract("(\d+)")
+            .astype(int)
+        )
 
         grouped_df = self.df.groupby("name", as_index=False).agg(
             {"review_count": "first", "hotel_average_ratings": "first"}
@@ -342,7 +346,7 @@ class EDA:
             grouped_df,
             x="hotel_average_ratings",
             y="review_count",
-            title="Review Count by Hotel Ratings"
+            title="Review Count by Hotel Ratings",
         )
         fig.update_layout(yaxis_title="Review Count", xaxis_title="Hotel Ratings")
 

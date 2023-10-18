@@ -1,8 +1,6 @@
 import pandas as pd
 import sys
 
-from data_fetching.extraction import fetch_data
-
 
 class DataCleaning:
     """
@@ -119,23 +117,6 @@ class DataCleaning:
         df["price"] = df["price"].str.replace("SGD", "").astype(int)
         return df
 
-    def create_index(self, df):
-        """
-        This function adds an 'index' column to the DataFrame.
-
-        Parameters
-        ----------
-        df : pandas.DataFrame
-            The input DataFrame.
-
-        Returns
-        -------
-        pandas.DataFrame
-            The DataFrame with an additional 'index' column.
-        """
-        df.insert(0, "index", df.index + 1)
-        return df
-
     def change_time(self, df):
         df["date"] = pd.to_datetime(
             df["date"], format="Date of stay: %B %Y", errors="coerce"
@@ -158,6 +139,5 @@ class DataCleaning:
         df = data_cleaner.overall_experience(df)
         df = data_cleaner.rename_hotel_class(df)
         df = data_cleaner.change_price(df)
-        df = data_cleaner.create_index(df)
         df = data_cleaner.change_time(df)
         return df
