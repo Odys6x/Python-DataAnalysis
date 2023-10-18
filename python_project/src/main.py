@@ -1,6 +1,7 @@
 import ast
 from collections import Counter
 
+import os
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -13,6 +14,10 @@ import sys
 import streamlit.web.cli as stcli
 from streamlit import runtime
 from visualisation.visualise import Visualise
+
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 
 
 def main():
@@ -43,8 +48,7 @@ def main():
         match file_extension:
             case "csv":
                 df1 = pd.read_csv(uploaded_file)
-                df2 = pd.read_csv("data/raw/Hotel_List.csv")
-                # df2 = pd.read_csv("C:/Users/Swee Jun Hong/Desktop/SIT/Programming fundamentals/python_group_project/github_project_2/OurProj/python_project/data/raw/Hotel_List.csv")
+                df2 = pd.read_csv("../data/raw/Hotel_List.csv")
 
                 data = pd.merge(df1, df2, on="Name", how="left")
                 data_cleaner = DataCleaning()
